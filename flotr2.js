@@ -1635,9 +1635,12 @@ Flotr.defaultOptions = {
     scaling: 'linear',     // => Scaling, can be 'linear' or 'logarithmic'
     base: Math.E,
     titleAlign: 'center',
-    margin: true           // => Turn off margins with false
+    margin: true,           // => Turn off margins with false
+    baseline: 'top'
   },
-  x2axis: {},
+  x2axis: {
+    baseline: 'bottom'
+  },
   yaxis: {
     ticks: null,           // => format: either [1, 3] or [[1, 'a'], 3]
     minorTicks: null,      // => format: either [1, 3] or [[1, 'a'], 3]
@@ -3903,7 +3906,7 @@ Flotr.addType('bars', {
       xScale    : xScale,
       yScale    : yScale,
       top       : top,
-      left      : Math.min(left, right) - lineWidth / 2,
+      left      : Math.min(left, right) + lineWidth / 2,
       width     : Math.abs(right - left) - lineWidth,
       height    : bottom - top
     };
@@ -6434,7 +6437,9 @@ Flotr.addPlugin('labels', {
         angle : Flotr.toRad(axis.options.labelsAngle)
       };
       style = Flotr.getBestTextAlign(style.angle, style);
-
+      
+      style.textBaseline = axis.options.baseline || style.textBaseline;
+      
       for (i = 0; i < axis.ticks.length && continueShowingLabels(axis); ++i) {
 
         tick = axis.ticks[i];
